@@ -98,7 +98,7 @@ public class SelfTuningCollectionExecutor {
 		fastJMXLatency = null;
 		if (collectInternal) {
 			PluginData fastJMXPd = new PluginData();
-			fastJMXPd.setHost("localhost");
+			fastJMXPd.setHost(getHostname());
 			fastJMXPd.setPlugin("FastJMX");
 
 			fastJMXGauge = new ValueList(fastJMXPd);
@@ -132,6 +132,17 @@ public class SelfTuningCollectionExecutor {
 			ring[i] = null;
 		}
 		index = 0;
+	}
+
+	private String getHostname() {
+		String res = null;
+		String hostname = Collectd.getHostname();
+		if (hostname == null || hostname.trim().isEmpty()) {
+			res = "localhost";
+		} else {
+			res = hostname;
+		}
+		return res;
 	}
 
 	/**
